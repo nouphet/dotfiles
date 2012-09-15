@@ -13,7 +13,6 @@ fi
 # User specific aliases and functions
 
 # modidy console
-
 if [ $TERM = screen  ]; then
   PS1="\`if [ \$? = 0 ]; then echo \[\e[36m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`(screen $STY)\n\\$ "
 else
