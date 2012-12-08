@@ -66,6 +66,7 @@ alias v='vim'
 alias ifc='/sbin/ifconfig |grep inet'
 #alias ping='ping -i 0.2'
 alias gowww='cd /var/www/html/'
+alias goshare='cd /var/share/'
 alias getadelie='wget https://raw.github.com/suin/xoops-adelie-debug/master/build/AdelieDebug.class.php'
 
 function go {
