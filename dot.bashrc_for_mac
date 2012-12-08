@@ -12,11 +12,37 @@ fi
 
 # User specific aliases and functions
 
+# プロンプトにブランチ名表示
+function parse_git_branch {
+  RED="\e[0;31m"
+  YELLOW="\e[33m"
+  GREEN="\e[0;32m"
+  BLUE="\e[0;34m"
+  NONE="\e[0m"
+ 
+  NOW_BRANCH=$(git symbolic-ref HEAD 2> /dev/null | cut -d/ -f3)
+  IND_STAT=$(git status --porcelain 2> /dev/null | grep -v "?" | cut -d" " -f1 )
+  WTR_STAT=$(git status --porcelain 2> /dev/null | grep -v "?" | cut -d" " -f2 )
+ 
+  if [ "${IND_STAT}" != "" ]; then
+    [[ ${NOW_BRANCH} ]] && echo -e "${RED}[${NOW_BRANCH}]${NONE}"
+ 
+  elif [ "${WTR_STAT}" != "" ]; then
+    [[ ${NOW_BRANCH} ]] && echo -e "${YELLOW}[${NOW_BRANCH}]${NONE}"
+ 
+  else
+    [[ ${NOW_BRANCH} ]] && echo -e "${BLUE}[${NOW_BRANCH}]${NONE}"
+ 
+  fi
+ 
+}
+#export PS1='\u@\h \w $(parse_git_branch)$ '
+
 # modidy console
 if [ $TERM = screen  ]; then
-  PS1="\`if [ \$? = 0 ]; then echo \[\e[36m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`(screen $STY)\n\\$ "
+  PS1="\`if [ \$? = 0 ]; then echo \[\e[32m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`$(parse_git_branch)(screen $STY)\n\\$ "
 else
-  PS1="\`if [ \$? = 0 ]; then echo \[\e[36m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`\\n\\$ "
+  PS1="\`if [ \$? = 0 ]; then echo \[\e[32m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`$(parse_git_branch)\\n\\$ "
 fi
 
 # Application Shortcuts
@@ -24,7 +50,10 @@ alias cot='open -g -a CotEditor'	# ターミナルからCotEditorを開く
 alias coda='open -g -a Coda'		# ターミナルからCodaを開く
 alias safari='open -g -a safari'	# ターミナルからSafariを開く
 alias console='open -a console'		# ターミナルからコンソールを開く
-alias edit='open -g /Applications/PhpStorm.app'		# ターミナルからphpStormを開く
+alias edit='open -a /Applications/PhpStorm.app'		# ターミナルからphpStormを開く
+alias mine='open -a /Applications/RubyMine.app'		# ターミナルからRubyMineを開く
+alias cheat='open -g /Users/nouphet/Dropbox/CMSs/XOOPSCube/XoopsCubeLegacy2.xDevelopersCheatSheet1.2-ja.pdf'
+alias mouedit='open -g /Applications/Mou.app'
 
 # for shortcut
 alias up='cd ..'
@@ -34,7 +63,7 @@ alias up4='cd ../../../..'
 alias up5='cd ../../../../..'
 #alias ls='ls -G'
 alias rm='rm -i'
-alias l='ls -a'
+alias l='ls'
 alias la='ls -al'
 alias ll='ls -l'
 alias lll='ls -l'
@@ -44,10 +73,14 @@ alias b='bzip2 -dc'
 alias dh='df -h'
 alias vi='vim'
 alias v='vim'
+alias ifc='ifconfig |grep inet'
+alias gitcp='git add . && git ci -a && git push'
+alias gs='git st'
 #alias ping='ping -i 0.2'
-alias gomamp="cd /Applications/MAMP/htdocs/"
 alias gowww='cd /var/www/html/'
 alias getadelie='wget https://raw.github.com/suin/xoops-adelie-debug/master/build/AdelieDebug.class.php'
+alias installxoops='T="../xoops_trust_path";curl -kL github.com/XoopsX/installer/raw/master/install.sh|sed "s#<T>#$T#"|sh
+'
 
 function go {
 	local dir
@@ -76,3 +109,4 @@ PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:~/bin:$PATH
 export PATH=/usr/local/sbin:$PATH # for Homebrew
 export PATH=/usr/local/bin:$PATH  # for Homebrew
 
+alias g=git

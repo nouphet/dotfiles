@@ -12,11 +12,37 @@ fi
 
 # User specific aliases and functions
 
+# プロンプトにブランチ名表示
+function parse_git_branch {
+  RED="\e[0;31m"
+  YELLOW="\e[33m"
+  GREEN="\e[0;32m"
+  BLUE="\e[0;34m"
+  NONE="\e[0m"
+ 
+  NOW_BRANCH=$(git symbolic-ref HEAD 2> /dev/null | cut -d/ -f3)
+  IND_STAT=$(git status --porcelain 2> /dev/null | grep -v "?" | cut -d" " -f1 )
+  WTR_STAT=$(git status --porcelain 2> /dev/null | grep -v "?" | cut -d" " -f2 )
+ 
+  if [ "${IND_STAT}" != "" ]; then
+    [[ ${NOW_BRANCH} ]] && echo -e "${RED}[${NOW_BRANCH}]${NONE}"
+ 
+  elif [ "${WTR_STAT}" != "" ]; then
+    [[ ${NOW_BRANCH} ]] && echo -e "${YELLOW}[${NOW_BRANCH}]${NONE}"
+ 
+  else
+    [[ ${NOW_BRANCH} ]] && echo -e "${BLUE}[${NOW_BRANCH}]${NONE}"
+ 
+  fi
+ 
+}
+#export PS1='\u@\h \w $(parse_git_branch)$ '
+
 # modidy console
 if [ $TERM = screen  ]; then
-  PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`(screen $STY)\n\\$ "
+  PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`$(parse_git_branch)(screen $STY)\n\\$ "
 else
-  PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`\\n\\$ "
+  PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`$(parse_git_branch)\\n\\$ "
 fi
 
 # for shortcut
