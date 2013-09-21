@@ -83,3 +83,6 @@
 [tig "bind"]
 	generic = g move-first-line
 	generic = G move-last-line
+
+[http]
+        sslVerify = false
