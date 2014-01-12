@@ -40,9 +40,9 @@ function parse_git_branch {
 
 # modidy console
 if [ $TERM = screen  ]; then
-  PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`$(parse_git_branch)(screen $STY)\n\\$ "
+  PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]\u@$HOSTNAME \(\d \t\):\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`(screen $STY)\n\\$ "
 else
-  PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]\u@$HOSTNAME:\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`$(parse_git_branch)\\n\\$ "
+  PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]\u@$HOSTNAME \(\d \t\):\w\[\e[0m\]; else echo \[\e[41m\]\u@$HOSTNAME:\w\[\e[0m\]; fi\`\\n\\$ "
 fi
 
 # for shortcut
